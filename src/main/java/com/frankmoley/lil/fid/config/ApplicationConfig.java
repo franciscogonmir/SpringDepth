@@ -6,7 +6,6 @@ import com.frankmoley.lil.fid.service.TimeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
@@ -17,17 +16,12 @@ public class ApplicationConfig {
     private String greeting;
     @Value("${app.name}")
     private String name;
+    @Value("#{new Boolean(environment['spring.profiles.active'] != 'dev')}")
+    private boolean is24;
 
     @Bean
-    @Profile("!dev")
     public TimeService timeService() {
-        return new TimeService(true);
-    }
-
-    @Bean
-    @Profile("dev")
-    public TimeService timeService12() {
-        return new TimeService(false);
+        return new TimeService(is24);
     }
 
     @Bean
