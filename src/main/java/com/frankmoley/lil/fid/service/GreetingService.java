@@ -1,15 +1,23 @@
 package com.frankmoley.lil.fid.service;
 
+import com.frankmoley.lil.fid.Aspect.CounterCall;
+import com.frankmoley.lil.fid.Aspect.Loggable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service
 public class GreetingService {
 
-    private final String greeting;
+    @Value("${app.greeting}")
+    private String greeting;
 
-    public GreetingService(String greeting){
+    public GreetingService() {
         super();
-        this.greeting = greeting;
     }
 
-    public String getGreeting(String name){
+    @Loggable
+    @CounterCall
+    public String getGreeting(String name) {
         return greeting + " " + name;
     }
 }
